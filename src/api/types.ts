@@ -44,14 +44,16 @@ export interface WeatherData {
   cod: number;
 }
 
+export interface List {
+  dt: number;
+  main: WeatherData["main"];
+  weather: WeatherData["weather"];
+  wind: WeatherData["wind"];
+  dt_txt: string;
+}
+
 export interface ForecastData {
-  list: Array<{
-    dt: number;
-    main: WeatherData["main"];
-    weather: WeatherData["weather"];
-    wind: WeatherData["wind"];
-    dt_txt: string;
-  }>;
+  list: Array<List>;
   city: {
     name: string;
     coord: Coordinates;

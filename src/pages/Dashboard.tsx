@@ -1,25 +1,46 @@
+import CurrentWeather from "@/components/CurrentWeather";
+import HourlyTemperature from "@/components/HourlyTemperature";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import { WeatherDetails } from "@/components/WeatherDetails";
+import { WeatherForecast } from "@/components/WeatherForcast";
 import { useGeoLocation } from "@/hooks/useGeoLocation";
+import {
+  useGetForecast,
+  useGetGeoCode,
+  useGetWeather,
+} from "@/hooks/useWeather";
 import { AlertTriangle, MapPin, RefreshCw } from "lucide-react";
 
 const Dashboard = () => {
   const {
-    // coordinates,
+    coordinates,
     getLocation,
     error: locationError,
     loading: locationLoading,
   } = useGeoLocation();
-  console.log("dsfklsdf", locationLoading);
+
+  const weatherQuery = useGetWeather({
+    lat: coordinates?.lat || 0,
+    lon: coordinates?.lon || 0,
+  });
+
+  const forCastQuery = useGetForecast({
+    lat: coordinates?.lat || 0,
+    lon: coordinates?.lon || 0,
+  });
+  const reverseGeoQuery = useGetGeoCode({
+    lat: coordinates?.lat || 0,
+    lon: coordinates?.lon || 0,
+  });
+
   function refetchLocation() {
-    getLocation();
+    weatherQuery.refetch();
+    forCastQuery.refetch();
+    reverseGeoQuery.refetch();
   }
 
-  if (locationLoading) {
-    return <div className='flex flex-auto '>Loading</div>;
-  }
-
-  if (locationError) {
+  if (!coordinates) {
     return (
       <Alert variant='destructive'>
         <AlertTriangle className='h-4 w-4' />
@@ -35,16 +56,78 @@ const Dashboard = () => {
     );
   }
 
+  if (!weatherQuery?.dataUpdatedAt || !weatherQuery.data) {
+    return (
+      <Alert variant='destructive'>
+        <AlertTriangle className='h-4 w-4' />
+        <AlertTitle>Oops</AlertTitle>
+        <AlertDescription className='flex flex-col gap-4'>
+          <p> {weatherQuery?.error?.message}</p>
+          <Button
+            onClick={refetchLocation}
+            variant={"outline"}
+            className='w-fit'
+          >
+            <RefreshCw className='mr-2 h-4 w-4' />
+            Retry
+          </Button>
+        </AlertDescription>
+      </Alert>
+    );
+  }
+
+  if (
+    weatherQuery?.isFetching ||
+    forCastQuery?.isFetching ||
+    reverseGeoQuery?.isFetching ||
+    locationLoading
+  ) {
+    return (
+      <div className='flex flex-auto items-center justify-center '>Loading</div>
+    );
+  }
+
+  const locationData = reverseGeoQuery?.data?.[0];
+
+  if (!locationData || !forCastQuery?.data) {
+    return null;
+  }
+
   return (
-    <div className='cflex w-full flex-col flex-auto '>
+    <div className='flex w-full flex-col flex-auto gap-y-6 pb-8'>
       <div className='w-full flex items-center justify-between'>
         <p className='font-medium text-lg'>My Location</p>
-        <Button size={"icon"} onClick={refetchLocation}>
-          <RefreshCw />
+        <Button
+          size={"icon"}
+          onClick={refetchLocation}
+          disabled={weatherQuery?.isFetching || forCastQuery?.isFetching}
+        >
+          <RefreshCw
+            className={`${
+              weatherQuery?.isFetching || forCastQuery?.isFetching
+                ? "animate-spin"
+                : ""
+            } h-4 w-4`}
+          />
         </Button>
+      </div>
+
+      <div className='flex flex-col lg:flex-row gap-x-10 gap-y-6 '>
+        <CurrentWeather
+          data={weatherQuery.data}
+          locationData={locationData ?? null}
+        />
+        <HourlyTemperature data={forCastQuery?.data} />
+      </div>
+      <div className='flex flex-col lg:flex-row gap-x-10 gap-y-6 '>
+        <div className='flex-1'>
+          <WeatherDetails data={weatherQuery.data} />
+        </div>
+        <div className='flex-1'>
+          <WeatherForecast data={forCastQuery?.data} />
+        </div>
       </div>
     </div>
   );
 };
-
 export default Dashboard;
