@@ -119,3 +119,19 @@
     /* font-family: "Poppins", sans-serif; */
   }
 }
+.leaflet-popup-content-wrapper {
+  padding: 0 !important;
+  color: unset !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+.leaflet-popup-close-button {
+  color: black !important;
+  background-color: white !important;
+  border-radius: 100% !important;
+}
+.dark .leaflet-popup-close-button {
+  color: rgb(255, 255, 255) !important;
+  background-color: black !important;
+  border-radius: 100% !important;
+}

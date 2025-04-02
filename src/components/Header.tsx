@@ -1,7 +1,7 @@
 import { useTheme } from "@/contexts/theme-provider";
-import { CloudSun, Moon, Sun } from "lucide-react";
+import { CloudSun, MapIcon, Moon, Sun } from "lucide-react";
 
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import SearchComponent from "./SearchComponent";
 function Header() {
   const { theme, setTheme } = useTheme();
@@ -13,7 +13,18 @@ function Header() {
           <CloudSun size={50} />
           <span className=''>Shethalam</span>
         </Link>
-        <div className='flex items-center gap-x-4'>
+        <div className='flex items-center gap-x-6'>
+          <NavLink
+            to='/map'
+            className={({ isActive }) =>
+              isActive
+                ? "text-blue-400 flex items-center gap-x-2"
+                : " flex items-center gap-x-2"
+            }
+          >
+            <MapIcon size={20} />
+            <span className=''>Map</span>
+          </NavLink>
           <SearchComponent />
           <button
             onClick={() => setTheme(isDark ? "light" : "dark")}

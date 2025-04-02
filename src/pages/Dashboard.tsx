@@ -1,5 +1,7 @@
 import CurrentWeather from "@/components/CurrentWeather";
+import { FavoriteCities } from "@/components/FavouriteCities";
 import HourlyTemperature from "@/components/HourlyTemperature";
+import LoaderSkeletion from "@/components/LoaderSkeletion";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { WeatherDetails } from "@/components/WeatherDetails";
@@ -35,9 +37,29 @@ const Dashboard = () => {
   });
 
   function refetchLocation() {
+    getLocation();
     weatherQuery.refetch();
     forCastQuery.refetch();
     reverseGeoQuery.refetch();
+  }
+
+  if (locationLoading) {
+    return <LoaderSkeletion />;
+  }
+  if (locationError) {
+    return (
+      <Alert variant='destructive'>
+        <AlertTriangle className='h-4 w-4' />
+        <AlertTitle>Location Error</AlertTitle>
+        <AlertDescription className='flex flex-col gap-4'>
+          <p>{locationError}</p>
+          <Button variant='outline' onClick={getLocation} className='w-fit'>
+            <MapPin className='mr-2 h-4 w-4' />
+            Enable Location
+          </Button>
+        </AlertDescription>
+      </Alert>
+    );
   }
 
   if (!coordinates) {
@@ -56,18 +78,14 @@ const Dashboard = () => {
     );
   }
 
-  if (!weatherQuery?.dataUpdatedAt || !weatherQuery.data) {
+  if (weatherQuery.error || forCastQuery.error) {
     return (
       <Alert variant='destructive'>
         <AlertTriangle className='h-4 w-4' />
-        <AlertTitle>Oops</AlertTitle>
+        <AlertTitle>Error</AlertTitle>
         <AlertDescription className='flex flex-col gap-4'>
-          <p> {weatherQuery?.error?.message}</p>
-          <Button
-            onClick={refetchLocation}
-            variant={"outline"}
-            className='w-fit'
-          >
+          <p>Failed to fetch weather data. Please try again.</p>
+          <Button variant='outline' onClick={refetchLocation} className='w-fit'>
             <RefreshCw className='mr-2 h-4 w-4' />
             Retry
           </Button>
@@ -76,15 +94,8 @@ const Dashboard = () => {
     );
   }
 
-  if (
-    weatherQuery?.isFetching ||
-    forCastQuery?.isFetching ||
-    reverseGeoQuery?.isFetching ||
-    locationLoading
-  ) {
-    return (
-      <div className='flex flex-auto items-center justify-center '>Loading</div>
-    );
+  if (!weatherQuery.data || !forCastQuery.data) {
+    return <LoaderSkeletion />;
   }
 
   const locationData = reverseGeoQuery?.data?.[0];
@@ -95,6 +106,7 @@ const Dashboard = () => {
 
   return (
     <div className='flex w-full flex-col flex-auto gap-y-6 pb-8'>
+      <FavoriteCities />
       <div className='w-full flex items-center justify-between'>
         <p className='font-medium text-lg'>My Location</p>
         <Button

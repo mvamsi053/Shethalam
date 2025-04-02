@@ -6,6 +6,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import City from "./pages/City";
 import Dashboard from "./pages/Dashboard";
 import Layout from "./components/layout";
+import { Toaster } from "./components/ui/sonner";
+import MapPage from "./pages/Map";
 
 function App() {
   const queryClient = new QueryClient();
@@ -15,6 +17,7 @@ function App() {
       children: [
         { index: true, Component: Dashboard },
         { path: "city/:cityName", Component: City },
+        { path: "map", Component: MapPage },
       ],
     },
   ]);
@@ -22,6 +25,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider defaultTheme='dark'>
         <RouterProvider router={router} />
+        <Toaster richColors />
       </ThemeProvider>
     </QueryClientProvider>
   );

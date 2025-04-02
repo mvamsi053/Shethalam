@@ -1,6 +1,6 @@
 import { useParams, useSearchParams } from "react-router-dom";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { AlertTriangle, Loader2 } from "lucide-react";
+import { AlertTriangle } from "lucide-react";
 import {
   useGetForecast,
   useGetGeoCode,
@@ -10,6 +10,8 @@ import HourlyTemperature from "@/components/HourlyTemperature";
 import { WeatherDetails } from "@/components/WeatherDetails";
 import { WeatherForecast } from "@/components/WeatherForcast";
 import CurrentWeather from "@/components/CurrentWeather";
+import FavouriteButton from "@/components/FavouriteButton";
+import LoaderSkeletion from "@/components/LoaderSkeletion";
 
 export default function City() {
   const [searchParams] = useSearchParams();
@@ -35,7 +37,7 @@ export default function City() {
   }
 
   if (!weatherQuery.data || !forecastQuery.data || !params.cityName) {
-    return <Loader2 className='h-4 w-4 animate-spin' />;
+    return <LoaderSkeletion />;
   }
   const locationData = reverseGeoQuery?.data?.[0] || {
     name: "",
@@ -53,9 +55,16 @@ export default function City() {
           {params.cityName}, {weatherQuery.data.sys.country}
         </h1>
         <div className='flex gap-2'>
-          {/* <FavoriteButton
-            data={{ ...weatherQuery.data, name: params.cityName }}
-          /> */}
+          <FavouriteButton
+            data={{
+              name: params.cityName,
+              country: locationData.country,
+              state: locationData.state,
+              lat: locationData.lat,
+              lon: locationData.lon,
+              local_names: locationData.local_names,
+            }}
+          />
         </div>
       </div>
 
