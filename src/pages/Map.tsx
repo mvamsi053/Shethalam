@@ -142,10 +142,8 @@ const MapPage = () => {
         <Marker
           position={{ lat: position.lat, lng: position.lon }}
           icon={currentIcon}
-        > 
-
-
-        
+        >
+          {/* // Use the current position */}
           <Popup>
             <CityCard lat={position.lat} lon={position.lon} />
           </Popup>
