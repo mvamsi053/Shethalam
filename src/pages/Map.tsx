@@ -38,6 +38,14 @@ const favIcon = L.icon({
   popupAnchor: [1, -34],
 });
 
+// Define the custom icon
+const homeIcon = L.icon({
+  iconUrl: "./home-address.png",
+  iconSize: [35, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+});
+
 interface CityCardProps {
   lat: number;
   lon: number;
@@ -124,14 +132,17 @@ const MapPage = () => {
           url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
         />
         <MapClickHandler onClick={handleMapClick} />
-        <Marker position={currentPosition} icon={currentIcon}>
+        <Marker position={currentPosition} icon={homeIcon}>
           <Popup>
             <CityCard lat={coordinates?.lat} lon={coordinates?.lon} />
           </Popup>
         </Marker>
 
         {/* On Click */}
-        <Marker position={{ lat: position.lat, lng: position.lon }}>
+        <Marker
+          position={{ lat: position.lat, lng: position.lon }}
+          icon={currentIcon}
+        >
           <Popup>
             <CityCard lat={position.lat} lon={position.lon} />
           </Popup>
