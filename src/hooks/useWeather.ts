@@ -7,6 +7,7 @@ export const API_KEYS = {
   forecast: (coords: Coordinates) => ["forecast", coords] as const,
   geo: (coords: Coordinates) => ["geo", coords] as const,
   search: (query: string) => ["geo-search", query] as const,
+  oneCall: (coords: Coordinates) => ["one-call", coords] as const,
 } as const;
 
 export function useGetWeather(coordinates: Coordinates | null) {

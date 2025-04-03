@@ -1,7 +1,7 @@
 import type { GeoCodeResponse, WeatherData } from "@/api/types";
 import { Card, CardContent } from "./ui/card";
 import { ArrowDownIcon, ArrowUpIcon, Droplets, Fan } from "lucide-react";
-
+import RainPredictor from "./RainPredictor";
 interface CurrentWeatherProps {
   data: WeatherData;
   locationData: GeoCodeResponse;
@@ -72,6 +72,7 @@ const CurrentWeather = ({ data, locationData }: CurrentWeatherProps) => {
               <p className='text-sm capitalize'>{description}</p>
             </div>
           </div>
+          <RainPredictor data={data} />
         </div>
       </CardContent>
     </Card>

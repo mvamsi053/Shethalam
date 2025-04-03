@@ -139,15 +139,17 @@ const MapPage = () => {
         </Marker>
 
         {/* On Click */}
-        <Marker
-          position={{ lat: position.lat, lng: position.lon }}
-          icon={currentIcon}
-        >
-          {/* // Use the current position */}
-          <Popup>
-            <CityCard lat={position.lat} lon={position.lon} />
-          </Popup>
-        </Marker>
+        {position.lat !== 0 && position.lon !== 0 && (
+          <Marker
+            position={{ lat: position.lat, lng: position.lon }}
+            icon={currentIcon}
+          >
+            {/* // Use the current position */}
+            <Popup>
+              <CityCard lat={position.lat} lon={position.lon} />
+            </Popup>
+          </Marker>
+        )}
         {favourites.map((city) => (
           <Marker
             key={`${city.lat}-${city.lon}`}

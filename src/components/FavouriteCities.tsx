@@ -5,6 +5,7 @@ import { X, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useGetWeather } from "@/hooks/useWeather";
 import { useFavourites } from "@/hooks/useFavourites";
+import RainPredictor from "./RainPredictor";
 
 interface FavoriteCityTabletProps {
   id: string;
@@ -53,26 +54,32 @@ function FavoriteCityTablet({
         </div>
       ) : weather ? (
         <>
-          <div className='flex items-center gap-2'>
-            <img
-              src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}.png`}
-              alt={weather.weather[0].description}
-              className='h-8 w-8'
-            />
-            <div>
-              <p className='font-medium'>{name}</p>
-              <p className='text-xs text-muted-foreground'>
-                {weather.sys.country}
-              </p>
+          <div className='flex flex-col gap-y-2'>
+            <div className="flex ">
+              <div className='flex items-center gap-2'>
+                <img
+                  src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}.png`}
+                  alt={weather.weather[0].description}
+                  className='h-8 w-8'
+                />
+                <div>
+                  <p className='font-medium'>{name}</p>
+                  <p className='text-xs text-muted-foreground'>
+                    {weather.sys.country}
+                  </p>
+                </div>
+              </div>
+              <div className='ml-auto text-right'>
+                <p className='text-xl font-bold'>
+                  {Math.round(weather.main.temp)}°
+                </p>
+                <p className='text-xs capitalize text-muted-foreground'>
+                  {weather.weather[0].description}
+                </p>
+              </div>
             </div>
-          </div>
-          <div className='ml-auto text-right'>
-            <p className='text-xl font-bold'>
-              {Math.round(weather.main.temp)}°
-            </p>
-            <p className='text-xs capitalize text-muted-foreground'>
-              {weather.weather[0].description}
-            </p>
+
+            <RainPredictor data={weather} />
           </div>
         </>
       ) : null}

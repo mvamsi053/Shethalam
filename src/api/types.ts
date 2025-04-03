@@ -27,6 +27,9 @@ export interface WeatherData {
     speed: number;
     deg: number;
   };
+  rain: {
+    "1h": number;
+  };
   clouds: {
     all: number;
   };
