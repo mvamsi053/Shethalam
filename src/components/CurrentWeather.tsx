@@ -25,7 +25,7 @@ const CurrentWeather = ({ data, locationData }: CurrentWeatherProps) => {
     <Card className='overflow-hidden'>
       <CardContent>
         <div className='flex flex-col items-center justify-center gap-y-2 w-full'>
-          <h2 className='font-bold text-lg w-full'>
+          <h2 className='font-bold text-lg w-full text-blue-400'>
             {locationData?.name},{" "}
             <span className='font-normal text-base'>{locationData?.state}</span>
             ,{" "}

@@ -55,7 +55,7 @@ function FavoriteCityTablet({
       ) : weather ? (
         <>
           <div className='flex flex-col gap-y-2'>
-            <div className="flex ">
+            <div className='flex '>
               <div className='flex items-center gap-2'>
                 <img
                   src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}.png`}
@@ -96,7 +96,9 @@ export function FavoriteCities() {
 
   return (
     <>
-      <h1 className='text-xl font-bold tracking-tight'>Favorites</h1>
+      <h1 className='text-xl font-bold tracking-tight '>
+        Favorites
+      </h1>
       <ScrollArea className='w-full pb-4'>
         <div className='flex gap-4'>
           {favourites.map((city) => (

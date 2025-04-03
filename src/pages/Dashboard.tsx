@@ -108,7 +108,9 @@ const Dashboard = () => {
     <div className='flex w-full flex-col flex-auto gap-y-6 pb-8'>
       <FavoriteCities />
       <div className='w-full flex items-center justify-between'>
-        <p className='font-medium text-lg'>My Location</p>
+        <p className='text-xl font-bold tracking-tight '>
+          My Location
+        </p>
         <Button
           size={"icon"}
           onClick={refetchLocation}
