@@ -9,7 +9,6 @@ import {
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import "esri-leaflet";
 import { LatLngExpression, LatLng } from "leaflet";
 import { useGeoLocation } from "@/hooks/useGeoLocation";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";

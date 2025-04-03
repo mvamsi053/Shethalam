@@ -119,7 +119,7 @@ const Dashboard = () => {
               weatherQuery?.isFetching || forCastQuery?.isFetching
                 ? "animate-spin"
                 : ""
-            } h-4 w-4`}
+            } h-4 w-4 `}
           />
         </Button>
       </div>
