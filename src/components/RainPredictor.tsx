@@ -12,13 +12,14 @@ function predictRain(weatherData: WeatherData) {
 
   if (weatherMain === "Rain" || rainVolume > 0) {
     return "RAINING";
-  } else if (cloudCover > 80 && humidity > 70) {
-    return "RAINING_SOON";
-  } else if (cloudCover > 50) {
-    return "CLOUDY";
-  } else {
-    return "NO_RAIN";
   }
+  if (cloudCover > 80 && humidity > 70) {
+    return "RAINING_SOON";
+  }
+  if (cloudCover > 50) {
+    return "CLOUDY";
+  }
+  return "NO_RAIN";
 }
 
 const icons = {
